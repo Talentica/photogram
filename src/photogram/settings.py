@@ -43,6 +43,18 @@ INSTALLED_APPS = [
     'hub',
 ]
 
+# REST auth, api versioning
+REST_FRAMEWORK = {
+        'DEFAULT_AUTHENTICATION_CLASSES': (
+            # 'rest_framework.authentication.TokenAuthentication',
+            'rest_framework.authentication.BasicAuthentication',
+        ),
+        'TEST_REQUEST_RENDERER_CLASSES': (
+            'rest_framework.renderers.MultiPartRenderer', 
+            'rest_framework.renderers.JSONRenderer',
+        ),
+}
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
