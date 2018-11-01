@@ -16,6 +16,8 @@ __author__ = 'Toran Sahu  <toran.sahu@yahoo.com>'
 __license__ = 'Distributed under terms of the MIT license.'
 
 
+app_name = "hub"
+
 router = DefaultRouter()
 router.register('', PhotoViewSet)
 
