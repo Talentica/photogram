@@ -14,8 +14,18 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from rest_framework.documentation import include_docs_urls
+
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path("v1/admin/", admin.site.urls),
+    path(
+        "",
+        include_docs_urls(
+            title="PhotoGram API",
+            description="Find all the PhotoGram API endpoints here",
+        ),
+    ),
+    path("v1/photo/", include("hub.urls", namespace="hub-v1")),
 ]
