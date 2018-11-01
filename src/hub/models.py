@@ -7,7 +7,7 @@
 models.py
 """
 
-from django.db import models 
+from django.db import models
 
 
 __author__ = 'Toran Sahu <toran.sahu@yahoo.com>'
@@ -22,10 +22,7 @@ class Photo(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ('-uploaded_at')
+       ordering = ('-uploaded_at', )
 
     def __str__(self):
         return self.title
-
-
-
