@@ -11,6 +11,7 @@ coreapi = "*"
 pillow = "*"
 djoser = "*"
 djangorestframework-jwt = "*"
+coverage = "*"
 
 [dev-packages]
 
