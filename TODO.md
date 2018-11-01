@@ -4,6 +4,7 @@
 	- image field upload_to, extension, size limit
 	- sharable token for images
 		- expiration
+
 - auth/permissions
 	- user login/signup/logout
 	- user session management
@@ -11,4 +12,19 @@
 	- email as username
 
 
+- security
+	- cors
 
+- db
+	- mysql
+
+- other
+	- celery + rabbitmq for mail
+
+- config
+	- base/dev/prod settings
+	- config files
+
+- test
+	- unit
+	- coverage
