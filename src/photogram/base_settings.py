@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
+    'rest_framework.authtoken',
+    'djoser',
 
     'hub',
 ]
@@ -52,6 +54,9 @@ REST_FRAMEWORK = {
         'TEST_REQUEST_RENDERER_CLASSES': (
             'rest_framework.renderers.MultiPartRenderer', 
             'rest_framework.renderers.JSONRenderer',
+        ),
+        'DEFAULT_PERMISSION_CLASSES': (
+            'rest_framework.permissions.IsAuthenticated',
         ),
 }
 
@@ -134,5 +139,3 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
-
-
