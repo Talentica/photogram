@@ -10,7 +10,7 @@ views.py
 from rest_framework import viewsets
 from hub.models import Photo
 from hub.serializers import PhotoSerializer
-from photogram.permissions import IsUser
+from photogram.permissions import IsUser, IsAuthenticatedOrReadOnly
 
 
 __author__ = 'Toran Sahu  <toran.sahu@yahoo.com>'
@@ -22,4 +22,7 @@ class PhotoViewSet(viewsets.ModelViewSet):
 
     queryset = Photo.objects.all()
     serializer_class = PhotoSerializer
-    permission_classes = (IsUser, )
+    permission_classes = (
+            IsUser, 
+            IsAuthenticatedOrReadOnly,
+    )
