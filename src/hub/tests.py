@@ -1,4 +1,4 @@
-! /usr/bin/env python
+#! /usr/bin/env python
 # -*- coding: utf-8 -*-
 # vim:fenc=utf-8
 # created_on: 2018-11-01 12:19
@@ -44,7 +44,7 @@ class PhotoAnonymousTests(APITestCase):
     def test_create_photo(self):
         # TODO: put image obj here
         data = {'image': 'put image obj here', 'title': 'Test Image'}
-        response = self.client.post(revese('hub-v1:photo-list'), data=data)
+        response = self.client.post(reverse('hub-v1:photo-list'), data=data)
         self.assertEqual(response.stats_code, status.HTTP_401_UNAUTHORIZED)
 
 
