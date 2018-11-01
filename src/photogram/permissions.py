@@ -19,7 +19,6 @@ SAFE_METHODS = ['GET', 'HEAD', 'OPTIONS']
 
 class IsUser(BasePermission):
     """Owner and admin only will have all permissions."""
-    
     def has_object_permission(self, request, view, obj):
         if request.user:
             if request.user.is_superuser:
@@ -29,3 +28,17 @@ class IsUser(BasePermission):
 
         return False
 
+
+class IsAuthenticatedOrReadOnly(BasePermission):
+    """The request is authenticated as a user, or is a read-only requ  est.
+    """
+    def has_permission(self, request, view):
+        if (request.method in SAFE_METHODS
+                and request.query_params.get('token')):
+            # TODO: check for valid token
+            if(True):
+                return True
+            return False
+        if (request.user and request.user.is_superuser):
+            return True
+        return False 
