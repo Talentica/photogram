@@ -7,7 +7,7 @@
 models.py
 """
 
-from django.db import models
+from django.db import models 
 
 
 __author__ = 'Toran Sahu <toran.sahu@yahoo.com>'
@@ -18,7 +18,6 @@ class Photo(models.Model):
     """Photo Collection Model"""
     image = models.ImageField()
     title = models.CharField(max_length=256)
-    token = models.CharField(max_legth=512)
     uploaded_at = models.DateField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
