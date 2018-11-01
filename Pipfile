@@ -9,6 +9,8 @@ djangorestframework = "*"
 "flake8" = "*"
 coreapi = "*"
 pillow = "*"
+djoser = "*"
+djangorestframework-jwt = "*"
 
 [dev-packages]
 
