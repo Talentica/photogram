@@ -46,8 +46,8 @@ INSTALLED_APPS = [
 # REST auth, api versioning
 REST_FRAMEWORK = {
         'DEFAULT_AUTHENTICATION_CLASSES': (
-            # 'rest_framework.authentication.TokenAuthentication',
-            'rest_framework.authentication.BasicAuthentication',
+            'rest_framework.authentication.TokenAuthentication',
+            # 'rest_framework.authentication.BasicAuthentication',
         ),
         'TEST_REQUEST_RENDERER_CLASSES': (
             'rest_framework.renderers.MultiPartRenderer', 
@@ -134,3 +134,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
