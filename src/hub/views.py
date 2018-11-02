@@ -13,6 +13,7 @@ from hub.serializers import PhotoSerializer
 from photogram.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework.decorators import action
+from hub.utils import encode, decode
 
 
 __author__ = "Toran Sahu  <toran.sahu@yahoo.com>"
@@ -54,8 +55,17 @@ class PhotoViewSet(viewsets.ModelViewSet):
     )
     def get_shared(self, request, token):
         """Get shared image"""
-        # TODO: check for valid token (JWT) in db,fetch image id against token
-        photo = Photo.objects.filter(id=32)  # TODO: hardcoded yet, get id from token
+        payload = decode(token)
+        photo_id = payload["id"]
+        if photo_id is None:
+            return Response({"detail": "Invalid URL"}, status.HTTP_400_BAD_REQUEST)
+        # TODO: check expiration of token
+        created_at = payload["created_at"]
+        expires_in = payload["expires_in"]
+
+        photo = Photo.objects.filter(id=photo_id)
+        if photo.id is None:
+            return Response({"detail": "Data has been removed"}, status.HTTP_204)
 
         page = self.paginate_queryset(photo)
         if page is not None:
@@ -72,12 +82,10 @@ class PhotoViewSet(viewsets.ModelViewSet):
         url_name="share-it",
     )
     def share_it(self, request, photo_id):
-        # TODO: generate token here
-        token = "f82f5464a38a713b5e8484725064716b3035dd47"
+        token = encode({"id": photo_id, "created_at": None, "expires_in": None})
+        # token = "f82f5464a38a713b5e8484725064716b3035dd47"
         shared_item = Shared.objects.create(photo_id=photo_id, token=token)
         shared_item.save()
-
-        # TODO: generate url here
         url = f"http://127.0.0.1:8000/v1/photo/token/{token}/"
         content = {"sharable_url": url}
         return Response(content, status=status.HTTP_201_CREATED)
