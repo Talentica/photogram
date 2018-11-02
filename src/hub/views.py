@@ -23,7 +23,7 @@ class PhotoViewSet(viewsets.ModelViewSet):
     queryset = Photo.objects.all()
     serializer_class = PhotoSerializer
     # TODO: fix to not pass anonymous user to serializer
-    # permission_classes = (
-            # # IsUser &
-            # IsAuthenticatedOrReadOnly,
-    # )
+    permission_classes = (
+            # IsUser &
+            IsAuthenticatedOrReadOnly,
+    )
