@@ -151,3 +151,8 @@ STATIC_ROOT = os.path.join(ENV_PATH, 'allstatic/')
 
 MEDIA_URL = '/file/'
 MEDIA_ROOT = os.path.join(ENV_PATH, 'FILE/')
+
+
+# Append slash in url (if not)
+
+APPEND_SLASH = True
