@@ -1,4 +1,4 @@
-# TODO
+ TODO
 
 - hub
 	- image field upload_to, extension, size limit
@@ -28,3 +28,5 @@
 - test
 	- unit
 	- coverage
+	- test sharable token get things
+	- test object ownership
