@@ -135,7 +135,19 @@ USE_L10N = True
 USE_TZ = True
 
 
+# setting a few path variable for ease
+
+ENV_PATH = os.path.abspath(os.path.dirname(__file__)) + os.sep + os.pardir
+
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(ENV_PATH, 'allstatic/')
+
+
+# Media files
+
+MEDIA_URL = '/file/'
+MEDIA_ROOT = os.path.join(ENV_PATH, 'FILE/')
