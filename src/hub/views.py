@@ -25,7 +25,6 @@ class PhotoViewSet(viewsets.ModelViewSet):
     serializer_class = PhotoSerializer
     # TODO: fix to not pass anonymous user to serializer
     permission_classes = (
-            # IsUser &
             IsAuthenticatedOrReadOnly,
     )
 
