@@ -12,6 +12,7 @@ pillow = "*"
 djoser = "*"
 djangorestframework-jwt = "*"
 coverage = "*"
+pyjwt = "*"
 
 [dev-packages]
 
