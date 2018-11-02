@@ -32,7 +32,7 @@ class IsUser(BasePermission):
 class IsAuthenticatedOrReadOnly(BasePermission):
     """The request is authenticated as a user, or is a read-only requ  est.
     """
-    message = "galat"
+    message = "[warn] - Unauthorized Access"
 
     def has_permission(self, request, view):
         if (request.method in SAFE_METHODS
@@ -43,16 +43,15 @@ class IsAuthenticatedOrReadOnly(BasePermission):
             return False
         if (request.user or request.user.is_superuser):
             return True
-        return False 
-    
+        return False
+
     def has_object_permission(self, request, view, obj):
         if request.user:
             if request.user.is_superuser:
                 return True
             else:
-                print(view.kwargs)
-                # print(view)
-                print("here", obj)
-                return obj.owner == request.user
-
+                try:
+                    return obj.owner == request.user
+                except:
+                    return False
         return False
