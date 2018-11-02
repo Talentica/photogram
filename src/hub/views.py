@@ -7,8 +7,8 @@
 views.py
 """
 
-from rest_framework import viewsets
-from hub.models import Photo
+from rest_framework import viewsets, status
+from hub.models import Photo, Shared
 from hub.serializers import PhotoSerializer
 from photogram.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
@@ -64,3 +64,20 @@ class PhotoViewSet(viewsets.ModelViewSet):
 
         serializer = self.get_serializer(photo, many=True)
         return Response(serializer.data)
+
+    @action(
+        methods=["POST"],
+        detail=False,
+        url_path="^share/(?P<photo_id>[0-9]+)",
+        url_name="share-it",
+    )
+    def share_it(self, request, photo_id):
+        # TODO: generate token here
+        token = "f82f5464a38a713b5e8484725064716b3035dd47"
+        shared_item = Shared.objects.create(photo_id=photo_id, token=token)
+        shared_item.save()
+
+        # TODO: generate url here
+        url = f"http://127.0.0.1:8000/v1/photo/token/{token}/"
+        content = {"sharable_url": url}
+        return Response(content, status=status.HTTP_201_CREATED)
