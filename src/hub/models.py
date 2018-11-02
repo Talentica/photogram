@@ -11,12 +11,13 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
-__author__ = 'Toran Sahu <toran.sahu@yahoo.com>'
-__license__ = 'Distributed under terms of the MIT license'
+__author__ = "Toran Sahu <toran.sahu@yahoo.com>"
+__license__ = "Distributed under terms of the MIT license"
 
 
 class Photo(models.Model):
     """Photo Collection Model"""
+
     owner = models.ForeignKey(User, on_delete=models.CASCADE, blank=True)
     image = models.ImageField()
     title = models.CharField(max_length=256)
@@ -24,7 +25,15 @@ class Photo(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ('-uploaded_at', )
+        ordering = ("-uploaded_at",)
 
     def __str__(self):
         return str(self.title)
+
+
+class Shared(models.Model):
+    """Shared photo & token mapping model"""
+
+    photo_id = models.IntegerField()
+    token = models.CharField(max_length=256)
+    shared_at = models.DateTimeField(auto_now=True)
