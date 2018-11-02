@@ -27,8 +27,7 @@ __license__ = "Distributed under terms of the MIT license"
 
 
 class PhotoAuthUserTest(APITestCase):
-    """Test Hub app that 
-    
+    """Test Hub app that
     Authenticated User can:
         - POST Photos
         - PUT Photos
