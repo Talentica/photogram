@@ -15,5 +15,5 @@ __author__ = 'Toran Sahu <toran.sahu@yahoo.com>'
 __license__ = 'Distributed under terms of the MIT license'
 
 
-if socket.gethostname() in ('ToranS-UB', ):
+if socket.gethostname() in ('ToranS-UB', 'mint-ThinkPad-L440', ):
     from photogram.base_settings import *
