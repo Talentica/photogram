@@ -7,13 +7,16 @@
 tests.py
 """
 
-from rest_framework.test import APITestCase
-from django.contrib.auth.models import AnonymousUser
+from rest_framework.test import APITestCase, APIRequestFactory, force_authenticate
+from django.contrib.auth.models import AnonymousUser, User
 from django.core.exceptions import ObjectDoesNotExist
 from django.urls import reverse
 from rest_framework import status
 from PIL import Image
 from tempfile import NamedTemporaryFile
+from hub.views import PhotoViewSet
+from django.test.client import encode_multipart
+from hub.models import Photo
 
 
 __author__ = "Toran Sahu <toran.sahu@yahoo.com>"
@@ -21,6 +24,126 @@ __license__ = "Distributed under terms of the MIT license"
 
 
 # Create your tests here.
+
+
+class PhotoAuthUserTest(APITestCase):
+    """Test Hub app that 
+    
+    Authenticated User can:
+        - POST Photos
+        - PUT Photos
+        - PATCH Photos
+        - DELETE Photos
+        - GET(s) Photos without shareable token
+    """
+
+    def setUp(self):
+        self.tearDown()
+        self.test_user = User.objects.create_user(
+            username="testuser", email="test@gmail.com", password="password@Test"
+        )
+        self.auth_token = None
+        self.photo_data = None
+        self.photo_id = None
+
+        # create temp image for testing
+        self.test_image = Image.new("RGB", (50, 50))
+        self.test_file = NamedTemporaryFile(suffix=".png")
+        self.test_image.save(self.test_file)
+
+        test_photo = Photo.objects.create(
+            title="test sample data",
+            image="http://testserver.com/",
+            owner=self.test_user,
+        )
+        self.photo_id = test_photo.id
+
+    def tearDown(self):
+        try:
+            test_user = User.objects.get_by_natural_key("testuser")
+            test_user.delete()
+        except ObjectDoesNotExist:
+            pass
+
+    def test_get_auth_token(self):
+        user_cred = {"username": "testuser", "password": "password@Test"}
+        response = self.client.post("/v1/auth/token/create/", data=user_cred)
+        self.auth_token = response.data["auth_token"]
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_get_photo_list(self):
+        factory = APIRequestFactory()
+        view = PhotoViewSet.as_view({"get": "list"})
+        request = factory.get(reverse("hub-v1:photo-list"))
+        force_authenticate(request, user=self.test_user, token=self.auth_token)
+        response = view(request)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_create_photo(self):
+        with open(self.test_file.name, "rb") as image_data:
+            self.photo_data = {"image": image_data, "title": "Test Image"}
+            photo_data = self.photo_data
+            BOUNDARY = "BoUnDaRyStRiNg"
+            content = encode_multipart(BOUNDARY, photo_data)
+            content_type = f"multipart/form-data; boundary={BOUNDARY}"
+            factory = APIRequestFactory()
+            view = PhotoViewSet.as_view({"post": "create"})
+            request = factory.post(
+                reverse("hub-v1:photo-list"), content, content_type=content_type
+            )
+            force_authenticate(request, user=self.test_user, token=self.auth_token)
+            response = view(request)
+            self.photo_id = response.data["id"]
+            self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    def test_update_photo(self):
+        with open(self.test_file.name, "rb") as image_data:
+            self.photo_data = {
+                "image": image_data,
+                "title": "Test Image Updated",
+                "owner": 1,
+            }
+            photo_data = self.photo_data
+            BOUNDARY = "BoUnDaRyStRiNg"
+            content = encode_multipart(BOUNDARY, photo_data)
+            content_type = f"multipart/form-data; boundary={BOUNDARY}"
+            factory = APIRequestFactory()
+            view = PhotoViewSet.as_view({"put": "update"})
+            request = factory.put(
+                reverse("hub-v1:photo-detail", kwargs={"pk": self.photo_id}),
+                content,
+                content_type=content_type,
+            )
+            force_authenticate(request, user=self.test_user, token=self.auth_token)
+            response = view(request, pk=self.photo_id)
+            self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_partial_update_photo(self):
+        self.photo_data = {"title": "Test Image Partial Updated"}
+        photo_data = self.photo_data
+        BOUNDARY = "BoUnDaRyStRiNg"
+        content = encode_multipart(BOUNDARY, photo_data)
+        content_type = f"multipart/form-data; boundary={BOUNDARY}"
+        factory = APIRequestFactory()
+        view = PhotoViewSet.as_view({"patch": "partial_update"})
+        request = factory.patch(
+            reverse("hub-v1:photo-detail", kwargs={"pk": self.photo_id}),
+            content,
+            content_type=content_type,
+        )
+        force_authenticate(request, user=self.test_user, token=self.auth_token)
+        response = view(request, pk=self.photo_id)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_destroy_photo(self):
+        factory = APIRequestFactory()
+        view = PhotoViewSet.as_view({"delete": "destroy"})
+        request = factory.delete(
+            reverse("hub-v1:photo-detail", kwargs={"pk": self.photo_id})
+        )
+        force_authenticate(request, user=self.test_user, token=self.auth_token)
+        response = view(request, pk=self.photo_id)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
 
 class PhotoAnonymousTests(APITestCase):
