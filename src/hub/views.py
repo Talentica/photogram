@@ -14,6 +14,7 @@ from photogram.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from hub.utils import encode, decode
+import datetime
 
 
 __author__ = "Toran Sahu  <toran.sahu@yahoo.com>"
@@ -25,7 +26,6 @@ class PhotoViewSet(viewsets.ModelViewSet):
 
     queryset = Photo.objects.all()
     serializer_class = PhotoSerializer
-    # TODO: fix to not pass anonymous user to serializer
     permission_classes = (IsAuthenticatedOrReadOnly,)
 
     def list(self, request, *args, **kwargs):
@@ -49,23 +49,30 @@ class PhotoViewSet(viewsets.ModelViewSet):
     @action(
         methods=["GET"],
         detail=False,
-        url_path="^token/(?P<token>[a-zA-Z0-9]+)",
+        url_path="^shared/(?P<shared_id>[a-zA-Z0-9-]+)",
         url_name="get-shared",
         permission_classes=[],
     )
-    def get_shared(self, request, token):
+    def get_shared(self, request, shared_id):
         """Get shared image"""
+
+        token = None
+        result = Shared.objects.filter(id=shared_id).values()
+        if len(result) == 0:
+            return Response({"detail": "Invalid URL"}, status.HTTP_400_BAD_REQUEST)
+        elif len(result) > 1:
+            return Response(
+                {"detail": "Duplicate entry found"}, status.HTTP_400_BAD_REQUEST
+            )
+
+        token = result[0]["token"]
         payload = decode(token)
         photo_id = payload["id"]
         if photo_id is None:
             return Response({"detail": "Invalid URL"}, status.HTTP_400_BAD_REQUEST)
-        # TODO: check expiration of token
-        created_at = payload["created_at"]
-        expires_in = payload["expires_in"]
-
         photo = Photo.objects.filter(id=photo_id)
-        if photo.id is None:
-            return Response({"detail": "Data has been removed"}, status.HTTP_204)
+        # if photo.id is None:
+        # return Response({"detail": "Data has been removed"}, status.HTTP_204)
 
         page = self.paginate_queryset(photo)
         if page is not None:
@@ -82,10 +89,15 @@ class PhotoViewSet(viewsets.ModelViewSet):
         url_name="share-it",
     )
     def share_it(self, request, photo_id):
-        token = encode({"id": photo_id, "created_at": None, "expires_in": None})
+
+        # TODO: Handle expired token exception
+        # token = encode(
+        # {"id": photo_id, "exp": datetime.utcnow() + datetime.timedelta(hours=72)}
+        # )
+        token = encode({"id": photo_id})
         # token = "f82f5464a38a713b5e8484725064716b3035dd47"
         shared_item = Shared.objects.create(photo_id=photo_id, token=token)
         shared_item.save()
-        url = f"http://127.0.0.1:8000/v1/photo/token/{token}/"
+        url = f"http://127.0.0.1:8000/v1/photo/shared/{shared_item.id}/"
         content = {"sharable_url": url}
         return Response(content, status=status.HTTP_201_CREATED)
