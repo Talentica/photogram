@@ -9,6 +9,7 @@ models.py
 
 from django.db import models
 from django.contrib.auth.models import User
+import uuid
 
 
 __author__ = "Toran Sahu <toran.sahu@yahoo.com>"
@@ -34,6 +35,7 @@ class Photo(models.Model):
 class Shared(models.Model):
     """Shared photo & token mapping model"""
 
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     photo_id = models.IntegerField()
     token = models.CharField(max_length=256)
     shared_at = models.DateTimeField(auto_now=True)
