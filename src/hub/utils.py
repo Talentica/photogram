@@ -21,7 +21,8 @@ ALGORITHM = "HS256"
 
 def encode(payload):
     """Encode to JWT"""
-    return jwt.encode(payload, SECRET, algorithm=ALGORITHM)
+    binary_token = jwt.encode(payload, SECRET, algorithm=ALGORITHM)
+    return binary_token.decode()
 
 
 def decode(token):
