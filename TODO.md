@@ -31,3 +31,4 @@
 	- [x] coverage
 	- [x] test sharable token get things
 	- test object ownership
+	- test staff/admin cases
