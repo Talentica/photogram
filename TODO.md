@@ -2,13 +2,13 @@
 
 - hub
 	- image field upload_to, extension, size limit
-	- sharable token for images
-		- expiration
+	- [x] sharable token for images
+		- [x] expiration
 
 - auth/permissions
-	- user login/signup/logout
+	- [x] user login/signup/logout
 	- user session management
-	- shareable link for a particular user
+	- [x] shareable link for a particular user
 	- email as username
 
 
@@ -20,6 +20,7 @@
 
 - other
 	- celery + rabbitmq for mail
+	- localhost - hardcoded
 
 - config
 	- base/dev/prod settings
