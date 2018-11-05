@@ -99,11 +99,7 @@ class PhotoAuthUserTest(APITestCase):
 
     def test_update_photo(self):
         with open(self.test_file.name, "rb") as image_data:
-            self.photo_data = {
-                "image": image_data,
-                "title": "Test Image Updated",
-                "owner": 1,
-            }
+            self.photo_data = {"image": image_data, "title": "Test Image Updated"}
             photo_data = self.photo_data
             BOUNDARY = "BoUnDaRyStRiNg"
             content = encode_multipart(BOUNDARY, photo_data)
