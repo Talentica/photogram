@@ -34,6 +34,7 @@ class PhotoAuthUserTest(APITestCase):
         - PATCH Photos
         - DELETE Photos
         - GET(s) Photos without shareable token
+        - Generate (POST) a shareable link for a photo
     """
 
     def setUp(self):
@@ -134,6 +135,15 @@ class PhotoAuthUserTest(APITestCase):
         response = view(request, pk=self.photo_id)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
+    def test_share_it(self):
+        data = {"photo_id": self.photo_id}
+        factory = APIRequestFactory()
+        view = PhotoViewSet.as_view({"post": "share_it"})
+        request = factory.post(reverse("hub-v1:photo-share_it"), data)
+        force_authenticate(request, user=self.test_user, token=self.auth_token)
+        response = view(request)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
     def test_destroy_photo(self):
         factory = APIRequestFactory()
         view = PhotoViewSet.as_view({"delete": "destroy"})
@@ -153,7 +163,8 @@ class PhotoAnonymousTests(APITestCase):
         - not PUT Photos
         - not PATCH Photos
         - not DELETE Photos
-        - not GET(s) Photos without shareable token
+        - not GET(s) Photos without shared link/token
+        - GET Photos with shared link/token
     """
 
     test_file = None
@@ -218,3 +229,15 @@ class PhotoAnonymousTests(APITestCase):
     def test_destroy_photo(self):
         response = self.client.delete(reverse("hub-v1:photo-detail", kwargs={"pk": 1}))
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    # def test_get_shared(self):
+    # # TODO: create fixture of shared item, then access it
+
+    # # host = self.request.get_host()
+    # # response = self.client.get(
+    # # "{host}/v1/photo/shared/1e6bb7c5-91b3-4c2c-b9ac-7f1479052cb8/"
+    # # )
+    # response = self.client.get(
+    # "http://127.0.0.1:8000/v1/photo/shared/e003089b-74fb-45d5-90bb-17bf18a93a18/"
+    # )
+    # self.assertEqual(response.status_code, status.HTTP_200_OK)
