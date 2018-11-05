@@ -16,18 +16,18 @@
 	- cors
 
 - db
-	- mysql
+	- [x] mysql
 
 - other
 	- celery + rabbitmq for mail
-	- localhost - hardcoded
+	- [x] localhost - hardcoded
 
 - config
-	- base/dev/prod settings
+	- [x] base/dev/prod settings
 	- config files
 
 - test
-	- unit
-	- coverage
-	- test sharable token get things
+	- [x] unit
+	- [x] coverage
+	- [x] test sharable token get things
 	- test object ownership
