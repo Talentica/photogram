@@ -1,0 +1,14 @@
+[run]
+source = .
+
+[report]
+show_missing = True
+omit = 
+	*/site-packages/*
+    	[*/migrations/*]
+	*settings.py
+	[*tests.py]
+
+[html]
+title = Code Coverage
+    
