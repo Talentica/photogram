@@ -90,23 +90,19 @@ class PhotoViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(photo, many=True)
         return Response(serializer.data)
 
-    @action(
-        methods=["POST"],
-        detail=False,
-        url_path="^share/(?P<photo_id>[0-9]+)",
-        url_name="share-it",
-    )
-    def share_it(self, request, photo_id):
-
-        # TODO: Handle expired token exception
+    @action(methods=["POST"], detail=False, url_path="share", url_name="share_it")
+    def share_it(self, request):
+        data = request.data
+        photo_id = data["photo_id"]
+        # TODO: use token expiration
 
         # token = encode(
         # {"id": photo_id, "exp": datetime.utcnow() + datetime.timedelta(hours=72)}
         # )
         token = encode({"id": photo_id})
-        # token = "f82f5464a38a713b5e8484725064716b3035dd47"
         shared_item = Shared.objects.create(photo_id=photo_id, token=token)
         shared_item.save()
-        url = f"http://127.0.0.1:8000/v1/photo/shared/{shared_item.id}/"
+        host = request.get_host()
+        url = f"{host}/v1/photo/shared/{shared_item.id}/"
         content = {"sharable_url": url}
         return Response(content, status=status.HTTP_201_CREATED)
