@@ -33,14 +33,4 @@ class IsAuthenticatedOrReadOnly(BasePermission):
         return False
 
     def has_object_permission(self, request, view, obj):
-        if request.user:
-            if request.user.is_superuser or request.user.is_staff:
-                return True
-            if request.user.is_anonymous:
-                return False
-            else:
-                try:
-                    return obj.owner == request.user
-                except:
-                    return False
-        return False
+        return obj.owner == request.user
