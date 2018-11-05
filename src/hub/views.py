@@ -15,6 +15,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 from hub.utils import encode, decode
 import datetime
+from jwt.exceptions import ExpiredSignatureError
 
 
 __author__ = "Toran Sahu  <toran.sahu@yahoo.com>"
@@ -66,8 +67,15 @@ class PhotoViewSet(viewsets.ModelViewSet):
             )
 
         token = result[0]["token"]
-        payload = decode(token)
-        photo_id = payload["id"]
+
+        # handle jwt.exceptions.ExpiredSignatureError; if token expired
+        try:
+            payload = decode(token)
+            photo_id = payload["id"]
+        except ExpiredSignatureError:
+            return Response(
+                {"detail": "Link has been expired"}, status.HTTP_400_BAD_REQUEST
+            )
         if photo_id is None:
             return Response({"detail": "Invalid URL"}, status.HTTP_400_BAD_REQUEST)
         photo = Photo.objects.filter(id=photo_id)
@@ -91,6 +99,7 @@ class PhotoViewSet(viewsets.ModelViewSet):
     def share_it(self, request, photo_id):
 
         # TODO: Handle expired token exception
+
         # token = encode(
         # {"id": photo_id, "exp": datetime.utcnow() + datetime.timedelta(hours=72)}
         # )
