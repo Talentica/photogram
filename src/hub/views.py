@@ -50,7 +50,7 @@ class PhotoViewSet(viewsets.ModelViewSet):
     @action(
         methods=["GET"],
         detail=False,
-        url_path="^shared/(?P<shared_id>[a-zA-Z0-9-]+)",
+        url_path="shared/(?P<shared_id>[a-zA-Z0-9-]+)",
         url_name="get-shared",
         permission_classes=[],
     )
