@@ -11,9 +11,11 @@ settings.py
 import socket
 
 
-__author__ = 'Toran Sahu <toran.sahu@yahoo.com>'
-__license__ = 'Distributed under terms of the MIT license'
+__author__ = "Toran Sahu <toran.sahu@yahoo.com>"
+__license__ = "Distributed under terms of the MIT license"
 
 
-if socket.gethostname() in ('ToranS-UB', 'mint-ThinkPad-L440', ):
+if socket.gethostname() in ("ToranS-UB", "mint-ThinkPad-L440"):
+    from photogram.dev_settings import *
+else:
     from photogram.base_settings import *
