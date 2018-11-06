@@ -30,7 +30,7 @@ python manage.py runserver
 will run the server at `127.0.0.1:8000` by default.
 
 # API Documentation
-- open following link to explore the API docs
+- open following link to explore the API docs  
 [`http://127.0.0.1:8000`](http://127.0.0.1:8000)
 
 # Code Coverage
