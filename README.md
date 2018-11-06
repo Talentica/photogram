@@ -3,14 +3,14 @@
 A photo collection/sharing hub.
 
 # Prerequisites
-- Python >= 3.6, Pip
+- Python >= 3.7, pip
 - MySQL Server, Client (optional)
 
 # Installation
 - Install dependencies
 ```bash
 pip install pipenv
-cd `photogram`
+cd photogram
 pipenv install
 ```
 
