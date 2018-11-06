@@ -54,7 +54,7 @@ jobs:
             mkdir test-reports
             cd src/
             pip install --upgrade pipenv
-            pipenv run "python manage.py test"
+            pipenv run python manage.py test
 
       - store_test_results:
           path: test-results
