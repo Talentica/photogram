@@ -1,5 +1,9 @@
 # PhotoGram
 
+[![CircleCI](https://circleci.com/gh/toransahu/photogram.svg?style=shield)](https://circleci.com/gh/toransahu/photogram)
+[![CodeStyle](https://img.shields.io/badge/code%20style-pep8-green.svg)](https://www.python.org/dev/peps/pep-0008/) 
+
+
 A photo collection/sharing hub.
 
 # Prerequisites
