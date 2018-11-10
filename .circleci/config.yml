@@ -11,6 +11,7 @@ jobs:
       - image: circleci/python:3.7
         environment:
           PIPENV_VENV_IN_PROJECT: true
+          CODECOV_TOKEN: "a4d0864f-4e76-46f2-93f5-1f93793c233c"
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
