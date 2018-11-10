@@ -11,4 +11,5 @@ omit =
 
 [html]
 title = Code Coverage
-    
+[xml]
+output = ../coverage.xml
