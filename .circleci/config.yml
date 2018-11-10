@@ -29,10 +29,15 @@ jobs:
       #    key: deps9-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
 
       - run:
+          name: codecov dep
+          command: |
+             sudo pip install codecov
+
           name: install dependencies
           command: |
             sudo pip install pipenv
             pipenv install
+
 
       - save_cache:
           key: deps9-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
@@ -51,14 +56,16 @@ jobs:
           command: |
             # mkdir configs
             #touch configs/email_pwd
-            pip install --user codecov
-            codecov
             mkdir test-results
             mkdir test-reports
             cd src/
             pip install --upgrade pipenv
             pipenv run python manage.py test
             pipenv run coverage run --source='.' manage.py test
+
+         name: post test
+         command: |
+            codecov
 
       - store_test_results:
           path: test-results
