@@ -50,11 +50,14 @@ jobs:
           command: |
             # mkdir configs
             #touch configs/email_pwd
+            pip install codecov
+            codecov
             mkdir test-results
             mkdir test-reports
             cd src/
             pip install --upgrade pipenv
             pipenv run python manage.py test
+            pipenv run coverage run --source='.' manage.py test
 
       - store_test_results:
           path: test-results
