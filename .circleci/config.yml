@@ -51,7 +51,7 @@ jobs:
           command: |
             # mkdir configs
             #touch configs/email_pwd
-            pip install codecov
+            pip install --user codecov
             codecov
             mkdir test-results
             mkdir test-reports
