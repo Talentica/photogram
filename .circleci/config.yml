@@ -31,7 +31,7 @@ jobs:
       - run:
           name: codecov dep
           command: |
-             sudo pip install codecov
+             sudo pip install codecov  && codecov -t "a4d0864f-4e76-46f2-93f5-1f93793c233c"
 
       - run:
           name: install dependencies
@@ -66,7 +66,7 @@ jobs:
       - run:
           name: post test
           command: |
-            codecov
+            codecov -t "a4d0864f-4e76-46f2-93f5-1f93793c233c"
 
       - store_test_results:
           path: test-results
