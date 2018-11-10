@@ -62,7 +62,7 @@ jobs:
             cd src/
             pip install --upgrade pipenv
             pipenv run python manage.py test
-            pipenv run coverage run --source='.' manage.py test && coverage report -m
+            pipenv run coverage run --source='.' manage.py test && pipenv run coverage xml
       - run:
           name: post test
           command: |
