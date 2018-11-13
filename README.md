@@ -6,6 +6,12 @@
 
 
 A photo collection/sharing hub.
+- Built using python and Django with test driven development (TDD) approach
+- Contains APIs for:
+	- USERS : Register new user, login, logout etc.
+	- ROLES : View role, registered user role,  admin/staff role etc.
+	- SHARING : Share photos using shareable link via some token auths & link expiration feature
+	- CRUDing : Create, retrieve, update, and destroy photos
 
 # Prerequisites
 - Python >= 3.7, pip
