@@ -6,7 +6,7 @@
 
 
 A photo collection/sharing hub.
-- Built using python and Django with test driven development (TDD) approach
+- Built using Python and Django (DRF) with test driven development (TDD) approach
 - Contains APIs for:
 	- USERS : Register new user, login, logout etc.
 	- ROLES : View role, registered user role,  admin/staff role etc.
