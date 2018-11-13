@@ -10,7 +10,7 @@ A photo collection/sharing hub.
 - Contains APIs for:
 	- USERS : Register new user, login, logout etc.
 	- ROLES : View role, registered user role,  admin/staff role etc.
-	- SHARING : Share photos using shareable link via some token auths & link expiration feature
+	- SHARING : Share photos using shareable link via token auths & link expiration feature
 	- CRUDing : Create, retrieve, update, and destroy photos
 
 # Prerequisites
