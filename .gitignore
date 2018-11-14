@@ -121,3 +121,6 @@ dmypy.json
 *.png
 *.jpeg
 *.jpg
+
+# PyCharm
+.idea/
