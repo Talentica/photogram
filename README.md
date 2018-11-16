@@ -26,6 +26,12 @@ pipenv install
 ```
 
 - Migrate
+
+If using MySQL then create databse (optional)
+```SQL
+create database photogram CHARACTER SET utf8;
+```
+
 ```bash
 pipenv shell
 cd src
