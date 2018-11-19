@@ -12,13 +12,13 @@ from rest_framework.routers import DefaultRouter
 from hub.views import PhotoViewSet
 
 
-__author__ = 'Toran Sahu  <toran.sahu@yahoo.com>'
-__license__ = 'Distributed under terms of the MIT license.'
+__author__ = "Toran Sahu  <toran.sahu@yahoo.com>"
+__license__ = "Distributed under terms of the MIT license."
 
 
 app_name = "hub"
 
 router = DefaultRouter()
-router.register('', PhotoViewSet)
+router.register("", PhotoViewSet)
 
 urlpatterns = router.urls

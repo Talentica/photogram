@@ -96,7 +96,10 @@ class PhotoViewSet(viewsets.ModelViewSet):
         # TODO: use token expiration
 
         # token = encode(
-        # {"id": photo_id, "exp": datetime.utcnow() + datetime.timedelta(hours=72)}
+        # {
+        # "id": photo_id,
+        # "exp": datetime.utcnow() + datetime.timedelta(hours=72),
+        # }
         # )
         token = encode({"id": photo_id})
         shared_item = Shared.objects.create(photo_id=photo_id, token=token)

@@ -21,19 +21,19 @@ from django.conf.urls.static import static
 
 
 urlpatterns = [
-        path('v1/auth/', include('djoser.urls')),
-        path('v1/auth/', include('djoser.urls.authtoken')),
-        path("v1/admin/", admin.site.urls),
-        path(
-            "",
-            include_docs_urls(
-                title="PhotoGram API",
-                authentication_classes=[],
-                permission_classes=[],
-                description="Find all the PhotoGram API endpoints here",
-            ),
+    path("v1/auth/", include("djoser.urls")),
+    path("v1/auth/", include("djoser.urls.authtoken")),
+    path("v1/admin/", admin.site.urls),
+    path(
+        "",
+        include_docs_urls(
+            title="PhotoGram API",
+            authentication_classes=[],
+            permission_classes=[],
+            description="Find all the PhotoGram API endpoints here",
         ),
-        path("v1/photo/", include("hub.urls", namespace="hub-v1")),
+    ),
+    path("v1/photo/", include("hub.urls", namespace="hub-v1")),
 ]
 
 # Media URLs
